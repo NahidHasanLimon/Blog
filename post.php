@@ -49,7 +49,7 @@ else {
 			    while ($RelatedPostresult=$Related_PostRetrieve->fetch_assoc()) {
 
 					 ?>
-					<a href="post.php?id=<?php echo $RelatedPostresult['id']; ?>"><img src="admin/upload/<?php echo $RelatedPostresult['image']; ?>" alt="post image"/></a>
+					<a href="post.php?id=<?php echo $RelatedPostresult['id']; ?>"><img src="admin/<?php echo $RelatedPostresult['image']; ?>" alt="post image"/></a>
 				<?php  }} 
 					else
 					{

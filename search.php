@@ -1,12 +1,12 @@
 
 <?php include 'inc/header.php'; ?>
-<?php include 'inc/slider.php'; ?> 
+
 <?php 
-if (!isset($_GET['category'])||$_GET['category']==null) {
+if (!isset($_GET['searchKeyword'])||$_GET['searchKeyword']==null) {
 	header("Location: 404.php");
 }
 else {
-	$categoryID=$_GET['category'];
+	$searchKeyword=$_GET['searchKeyword'];
 
 	
 }
@@ -16,10 +16,10 @@ else {
 	<div class="contentsection contemplete clear">
 	<div class="maincontent clear">
 		<?php 
-			$sql="SELECT * from post where cat_id='$categoryID'";
-			$postRetrieve=$db->select($sql);
-			if ($postRetrieve) {
-				while ($result=$postRetrieve->fetch_assoc()) {
+			$sqlSearch="SELECT * FROM post WHERE title LIKE '%$searchKeyword%' OR body LIKE '%$searchKeyword%' OR tags LIKE '%$searchKeyword%' OR author LIKE '%$searchKeyword%'";
+			$searchR=$db->select($sqlSearch);
+			if ($searchR) {
+				while ($result=$searchR->fetch_assoc()) {
 								
 									
 			 ?>
@@ -37,8 +37,10 @@ else {
 			</div>
 			<?php } } else {  ?> 
 
-            <h2>  No Post Available in This Category</h2>
-			<?php } ?>
+				<p><h3>Your Searched keyword do not match with any post</h3></p>
+
+
+				<?php } ?>
 		</div>
 				<?php include 'inc/sidebar.php'?>
 				<?php include 'inc/footer.php'?>
