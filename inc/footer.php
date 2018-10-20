@@ -9,13 +9,35 @@
 			<li><a href="#">Privacy</a></li>
 		</ul>
 	  </div>
-	  <p>&copy; Copyright Training with live project.</p>
+	<?php 
+$queryFecth="SELECT * FROM copyright where id='1'";
+$CopyRight=$db->select($queryFecth);
+if ($CopyRight) {
+    while ($ResultCopyRight=$CopyRight->fetch_assoc()) {
+        
+
+
+ ?>
+        <p>
+         &copy; Copyright <a href="https://github.com/NahidHasanLimon/Blog">Nahid Hasan Limon</a>. <?php echo $ResultCopyRight['copyright']; ?><?php echo date('Y'); ?>
+        </p>
+    <?php }} ?>
 	</div>
 	<div class="fixedicon clear">
-		<a href="http://www.facebook.com"><img src="images/fb.png" alt="Facebook"/></a>
-		<a href="http://www.twitter.com"><img src="images/tw.png" alt="Twitter"/></a>
-		<a href="http://www.linkedin.com"><img src="images/in.png" alt="LinkedIn"/></a>
-		<a href="http://www.google.com"><img src="images/gl.png" alt="GooglePlus"/></a>
+		<?php 
+$queryFecth="SELECT * FROM social_media where id='1'";
+$SocialRow=$db->select($queryFecth);
+if ($SocialRow) {
+    while ($resultSocial=$SocialRow->fetch_assoc()) {
+        
+
+
+ ?>    
+		<a href="<?php echo $resultSocial['FB'] ?>"><img src="images/fb.png" alt="Facebook"/></a>
+		<a href="<?php echo $resultSocial['Twitter'] ?>"><img src="images/tw.png" alt="Twitter"/></a>
+		<a href="<?php echo $resultSocial['LinkedIN'] ?>"><img src="images/in.png" alt="LinkedIn"/></a>
+		<a href="<?php echo $resultSocial['GPlus'] ?>"><img src="images/gl.png" alt="GooglePlus"/></a>
+	<?php }}  ?>
 	</div>
 
 

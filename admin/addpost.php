@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
      $body=mysqli_real_escape_string($db->link,$_POST['body']);
      $tags=mysqli_real_escape_string($db->link,$_POST['tags']);
      $author=mysqli_real_escape_string($db->link,$_POST['author']);
+    $userID=mysqli_real_escape_string($db->link,$_POST['userID']);
 
 
 
@@ -46,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
       {
 
            move_uploaded_file($file_temp, $uploaded_image);
-            $query="INSERT INTO post(cat_id,title,author,body,tags,image) VALUES ('$cat_id','$title','$author','$body','$tags','$uploaded_image')  ";
+            $query="INSERT INTO post(cat_id,title,author,body,tags,image,userID) VALUES ('$cat_id','$title','$author','$body','$tags','$uploaded_image','$userID')  ";
             $insertPost=$db->insert($query);
             if ($insertPost) 
             {
@@ -137,7 +138,8 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
                             <label>Author</label>
                         </td>
                         <td>
-                            <input type="text" name="author" placeholder="Enter Author Name..." class="medium" />
+                            <input type="text" readonly="" name="author" value="<?php echo Session::get('adminName'); ?>" placeholder="Enter Author Name..." class="medium" />
+                            <input type="hidden" readonly="" name="userID" value="<?php echo Session::get('adminID'); ?>" placeholder="Enter Author Name..." class="medium" />
                         </td>
                     </tr>
 

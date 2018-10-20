@@ -1,6 +1,10 @@
 ﻿<?php include 'inc/header.php'; ?>
 <?php include 'inc/sidebar.php'; ?> 
-
+<?php 
+if (!Session::get('adminRole')=='0') {
+  echo "<script>  window.location='index.php'; </script>";
+}
+ ?>
 <?php 
 
 if (!isset($_GET['cat_id']) || $_GET['cat_id']==NULL) {

@@ -1,11 +1,8 @@
-<?php include '../lib/Session.php' ;
-Session::init();
+
+ <?php 
+// include '../lib/Session.php' ;
+// Session::init();
 ?>
-<?php '../config/config.php' ; ?>
-<?php '../lib/Database.php' ;?>
-<?php '../helpers/Format.php'; ?>
-
-
 
 <!DOCTYPE html>
 <head>
@@ -96,38 +93,38 @@ input:focus::-webkit-input-placeholder, input:valid::-webkit-input-placeholder {
 }
 
 </style>
-<!-- <script src="signupJS/jquery.js"></script> -->
-    <script type="text/javascript">
+<script src="LoginProcessJquery/jquery.js"></script>
+     <script type="text/javascript">
 
    $(function(){
     //for user registration
 
-    	//For User Login
-    	$("#login_submit").click(function(){
+      //For User Login
+      $("#login_submit").click(function(){
 
-    	 var email=$("#email").val();
-    	 var password=$("#password").val();
+       var email=$("#email").val();
+       var password=$("#password").val();
 
-    	//dataString is simply a variable
-    	var dataString ='email='+email+'&password='+password ;
-    	//ajax start
-    			$.ajax({
-    			//body of ajax
+      //dataString is simply a variable
+      var dataString ='email='+email+'&password='+password ;
+      //ajax start
+          $.ajax({
+          //body of ajax
 
-    			type:"POST",
-    			url:"ajaxCheck/getlogin.php",
-    			data:dataString,
-    			//operation
-    			success: function(data){
+          type:"POST",
+          url:"LoginProcessJquery/getlogin.php",
+          data:dataString,
+          //operation
+          success: function(data){
 
                   if($.trim(data) == "empty") {
     //use #for id and dot(.) for class
-                  		 $(".empty").show();
+                       $(".empty").show();
 
-                  		 setTimeout(function(){
+                       setTimeout(function(){
 
-                  		 	$(".empty").fadeOut();
-                  		 },3000);
+                        $(".empty").fadeOut();
+                       },3000);
 
 
                   }
@@ -136,34 +133,34 @@ input:focus::-webkit-input-placeholder, input:valid::-webkit-input-placeholder {
                   else if($.trim(data) == "error")
                   {
                     alert("Email or password do not matched");
-                  	      $(".error").show();
-                  	      setTimeout(function(){
+                          $(".error").show();
+                          setTimeout(function(){
 
-                  		 	 $(".error").fadeOut();
-                  		 },3000);
+                         $(".error").fadeOut();
+                       },3000);
 
 
                   }
-                  else
-                  	 {
-                  	 	alert("Succesfully Logged In ");
-                  	 	window.location="index.php";
-                  	 }
+                  else 
+                     {
+                      alert("Succesfully Logged In ");
+                      window.location="index.php";
+                     }
 
 
 
-    			}
+          }
 
 
 
 
-    			});
+          });
 
                 return false;
 
-    	});
-    	
-  
+      });
+
+
 
 
     });
@@ -174,13 +171,16 @@ input:focus::-webkit-input-placeholder, input:valid::-webkit-input-placeholder {
 			<body>
 			<div class="container">
 				<section id="content">
-			<form method="post">
+			<form action="" method="POST">
 	<h1>Drimik Blog Admin Login</h1>
 	<input placeholder="Username" type="text" name="email" id="email" required="">
 	<input placeholder="Password" type="password" name="password" id="password" required="">
 	<button name="login_submit" id="login_submit">Submit</button>
-	</form><!-- form -->
+	</form ><!-- form -->
 					<div class="button">
+            <span class="disable"  style="display: none"><h1>Disabled Account!! Warning!!</h1></span>
+              <span class="empty" style="display: none "><h1>Field Must not be Empty</h1></span>
+              <span class="error"  style="display: none"><h4>Email or password  do not matched</h4></span>
 						<a href="#">Drimik Blog</a>
 					</div><!-- button -->
 				</section><!-- content -->

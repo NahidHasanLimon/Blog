@@ -11,10 +11,22 @@
                             </ul>
                         </li>
 						
-                         <li><a class="menuitem">Update Pages</a>
+                         <li><a class="menuitem"> Pages</a>
                             <ul class="submenu">
-                                <li><a>About Us</a></li>
-                                <li><a>Contact Us</a></li>
+                                 <li><a href="addpage.php">Create New Page</a> </li>
+                                <?php 
+$queryFecth="SELECT * FROM page ";
+$PageName=$db->select($queryFecth);
+if ($PageName) {
+    while ($ResultPageName=$PageName->fetch_assoc()) {
+        
+
+
+ ?>
+ <li><a href="page.php?pageID=<?php echo $ResultPageName['id']; ?>"><?php echo $ResultPageName['name']; ?></a> </li>
+ 
+ <?php }} ?>
+    
                             </ul>
                         </li>
                         <li><a class="menuitem">Category Option</a>

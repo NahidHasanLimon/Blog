@@ -1,4 +1,8 @@
 
+<?php include '../lib/Session.php' ; ?>
+<?php 
+Session::checkAdminSession();
+ ?>
 <?php include '../config/config.php' ; ?>
 <?php include '../lib/Database.php';?>
 <?php include '../helpers/Format.php'; ?>
@@ -6,6 +10,14 @@
  $db= new Database();
  $fm= new Format();
  ?>
+ <?php
+      if (isset($_GET['action']) && $_GET['action']=='logout') {
+              Session::destroy();
+      header("Location:login.php");
+      exit();
+    }
+?>
+
 
 <!--  For Cache Control .. -->
 
@@ -60,16 +72,16 @@
                     <img src="img/livelogo.png" alt="Logo" />
 				</div>
 				<div class="floatleft middle">
-					<h1>Training with live project</h1>
-					<p>www.trainingwithliveproject.com</p>
+					<h1>Drimik Blog</h1>
+					<p>www.github.com/NahidHasanLimon</p>
 				</div>
                 <div class="floatright">
                     <div class="floatleft">
                         <img src="img/img-profile.jpg" alt="Profile Pic" /></div>
                     <div class="floatleft marginleft10">
                         <ul class="inline-ul floatleft">
-                            <li>Hello Admin</li>
-                            <li><a href="#">Logout</a></li>
+                            <li>Hello <?php echo $_SESSION['adminName']; ?></li>
+                            <li><a href="?action=logout">Logout</a></li>
                         </ul>
                     </div>
                 </div>
@@ -82,10 +94,38 @@
         <div class="grid_12">
             <ul class="nav main">
                 <li class="ic-dashboard"><a href="index.php"><span>Dashboard</span></a> </li>
-                <li class="ic-form-style"><a href=""><span>User Profile</span></a></li>
+                <li class="ic-form-style"><a href="profile.php"><span> Profile</span></a></li>
 				<li class="ic-typography"><a href="changepassword.php"><span>Change Password</span></a></li>
-				<li class="ic-grid-tables"><a href="inbox.php"><span>Inbox</span></a></li>
-                <li class="ic-charts"><a href="postlist.php"><span>Visit Website</span></a></li>
+				<li class="ic-grid-tables"><a href="inbox.php"><span>Inbox
+
+                     <?php 
+
+                        $queryMessage=" SELECT * FROM contact WHERE status='0'";
+                        $MessageR=$db->select($queryMessage);
+                        if ($MessageR) {
+                            $count=mysqli_num_rows($MessageR);
+                            echo "(".$count.")";
+                        }
+                        else 
+                        {
+                            echo "(0)";
+                        }
+                        
+                            
+
+                         ?>
+                </span></a></li>
+
+               <?php if (Session::get('adminRole')=='0') {
+              
+               ?>
+
+<li class="ic-charts"><a href="addUser.php"><span>Add User</span></a></li>
+
+               <?php  } ?>
+                
+                <li class="ic-charts"><a href="userList.php"><span>User List</span></a></li>
+                
             </ul>
         </div>
         <div class="clear">

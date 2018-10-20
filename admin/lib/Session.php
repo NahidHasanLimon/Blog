@@ -23,12 +23,28 @@ class Session{
 	 		header("Location:login.php");
 	 	}
 	 }
+	 
+	  public static function checkAdminSession_class(){
+	 	self::init();
+	 	if (self::get("adminLogin") == false) {
+	 		self::destroy();
+	 		header("Location:404.html");
+	 	}
+	 }
+	  public static function checkAdmin_Score_Session(){
+	 	self::init();
+	 	if (self::get("adminLogin") == false) {
+	 		self::destroy();
+	 		header("Location:table_score.php");
+	 	}
+	 }
 	 public static function checkAdminLogin(){
 		 	self::init();
 		 	if (self::get("adminLogin") == true) {
 		 		header("Location:index.php");
 		 	}
 		 }
+		 
 	 public static function checkSession(){
 	 	//self::init();
 	 	if (self::get("login") == false) {
@@ -62,7 +78,7 @@ class Session{
 	 	
 	 	if (self::get("exam_process") == false) {
 	 		//self::destroy();
-	 		header("Location:model_class.php");
+	 		header("Location:exam.php");
 	 	}
 	 }
 
@@ -71,18 +87,6 @@ class Session{
 	 	session_destroy();
 	 	session_unset();
 	 	    
-	 }
-	  public static function unsetUser(){
-	  set("login",false);
-	  unset($_SESSION['userid']);
-	  unset($_SESSION['username']);
-	  unset($_SESSION['name']);
-	  unset($_SESSION['email']);
-
-	 
-	 }
-	  public static function ExamProcessFunction(){
-	  set("ExamProcess",false);
 	 }
 
 

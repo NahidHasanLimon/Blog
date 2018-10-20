@@ -96,3 +96,6 @@ fieldset
 {
 	margin-bottom: 20px;
 }
+.LeftSide{float: left;width: 70%}
+.RightSide{float: left; width: 20%}
+.RightSide img{height: 160px; width: 170px;}

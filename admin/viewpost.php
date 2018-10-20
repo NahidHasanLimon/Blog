@@ -5,14 +5,14 @@
     <div class="box round first grid">
         <h2>Update Post</h2>
 <?php 
-if (!isset($_GET['editPost_id']) || $_GET['editPost_id']==NULL) {
+if (!isset($_GET['viewPost_id']) || $_GET['viewPost_id']==NULL) {
 
 echo "<script>  window.location='postlist.php'; </script>";
 // header("Location: catlist.php")
 }
 else 
 {
-$post_id=$_GET['editPost_id'];
+$viewPost_id=$_GET['viewPost_id'];
 
 }
 
@@ -20,108 +20,14 @@ $post_id=$_GET['editPost_id'];
 
 <?php 
 if ($_SERVER['REQUEST_METHOD']=='POST') {
- $title=mysqli_real_escape_string($db->link,$_POST['title']);
- $cat_id=mysqli_real_escape_string($db->link,$_POST['cat']);
- $body=mysqli_real_escape_string($db->link,$_POST['body']);
- $tags=mysqli_real_escape_string($db->link,$_POST['tags']);
- $author=mysqli_real_escape_string($db->link,$_POST['author']);
- $userID=mysqli_real_escape_string($db->link,$_POST['userID']);
-
-
-
-$permited  = array('jpg', 'jpeg', 'png', 'gif');
-$file_name = $_FILES['image']['name'];
-$file_size = $_FILES['image']['size'];
-$file_temp = $_FILES['image']['tmp_name'];
-
-$div = explode('.', $file_name);
-$file_ext = strtolower(end($div));
-$unique_image = substr(md5(time()), 0, 10).'.'.$file_ext;
-$uploaded_image = "upload/".$unique_image;
-
-  if ($title=="" || $cat_id==""|| $body=="" || $tags=="" || $author==""|| $userID=="") 
-  {
-     echo " <span class='error'> Field Must not be Empty </span>";
-  }
-  else
-  {
-
-if (!empty($file_name)) {
-  
-    if ($file_size>1048567) 
-    {
-        echo " <span class='error'> Image Size Should Be Less then 1 MB </span>";
-    }
-
-    elseif (in_array($file_ext,$permited)===false) 
-    {
-         echo " <span class='error'>You Can Upload Only:- </span>";
-         implode(',',$permited);
-    }
-
-    else 
-    {
-
-         move_uploaded_file($file_temp, $uploaded_image);
-         
-          $updateQuery="UPDATE post SET 
-            cat_id='$cat_id',
-            title='$title',
-            author='$author',
-            body='$body',
-            tags='$tags',
-            image='$uploaded_image',
-            userID='$userID'
-           WHERE id='$post_id' ";
-          $UpdatedPost=$db->update($updateQuery);
-          if ($UpdatedPost) 
-          {
-               echo " <span class='success'>Post Updated Successfully </span>";
-          }
-          else
-          {
-               echo " <span class='error'>Failed To Update Post </span>";
-          }
-
-     }
-   }
- else
-     {
-
-       $updateQuery2="UPDATE post SET 
-            cat_id='$cat_id',
-            title='$title',
-            author='$author',
-            body='$body',
-            tags='$tags',
-             userID='$userID'
-            
-           WHERE id='$post_id' ";
-          $UpdatedPost2=$db->update($updateQuery2);
-          if ($UpdatedPost2) 
-          {
-               echo " <span class='success'>Post Updated Successfully </span>";
-          }
-          else
-          {
-               echo " <span class='error'>Failed To Update Post </span>";
-          }
-
-     }
-
-   }
-   
-
-
+ echo "<script>  window.location='postlist.php'; </script>";
 
 }
-
-
 ?>
 
 <?php 
 
-$queryGetPost="SELECT * FROM post where id='$post_id' order by id desc";
+$queryGetPost="SELECT * FROM post where id='$viewPost_id' order by id desc";
 $getPost=$db->select($queryGetPost);
 if ($getPost) {
 while ($retPostResult=$getPost->fetch_assoc()) {
@@ -141,7 +47,7 @@ while ($retPostResult=$getPost->fetch_assoc()) {
                         <label>Title</label>
                     </td>
                     <td>
-                        <input type="text"  name="title" placeholder="Enter Post Title..." class="medium" value="<?php echo $retPostResult['title'] ?>" />
+                        <input type="text"readonly=""  name="title" placeholder="Enter Post Title..." class="medium" value="<?php echo $retPostResult['title'] ?>" />
                     </td>
                 </tr>
              
@@ -150,7 +56,7 @@ while ($retPostResult=$getPost->fetch_assoc()) {
                         <label>Category</label>
                     </td>
                     <td>
-                          <select id="select"  name="cat">
+                          <select readonly="" id="select"  name="cat">
                             <option> Select Category</option>
                             <?php 
                             $sqlSelectCat="SELECT * from category";
@@ -182,11 +88,11 @@ while ($retPostResult=$getPost->fetch_assoc()) {
               
                 <tr>
                     <td>
-                        <label>Upload Image</label>
+                        <label> Image</label>
                     </td>
                     <td>
-                      <img src=" <?php echo $retPostResult['image'] ?>" height="50px" width="100px"/>
-                        <input name="image" type="file" />
+                      <img src=" <?php echo $retPostResult['image'] ?>" height="100px" width="200px"/>
+                       
                     </td>
                 </tr>
                 <tr>
@@ -194,7 +100,7 @@ while ($retPostResult=$getPost->fetch_assoc()) {
                         <label>Content</label>
                     </td>
                     <td>
-                        <textarea name="body"  class="tinymce">
+                        <textarea name="body" readonly="" class="tinymce">
                           <?php echo $retPostResult['body'] ?>
                         </textarea>
                     </td>
@@ -206,7 +112,7 @@ while ($retPostResult=$getPost->fetch_assoc()) {
                         <label>Tags</label>
                     </td>
                     <td>
-                        <input type="text" name="tags" placeholder="Enter Tags  ..." class="medium" value="<?php echo $retPostResult['tags'] ?>" />
+                        <input type="text" readonly="" name="tags" placeholder="Enter Tags  ..." class="medium" value="<?php echo $retPostResult['tags'] ?>" />
                     </td>
                 </tr>
 
@@ -215,7 +121,7 @@ while ($retPostResult=$getPost->fetch_assoc()) {
                         <label>Author</label>
                     </td>
                     <td>
-                        <input type="text" name="author" placeholder="Enter Author Name..." class="medium" value="<?php echo $retPostResult['author'] ?>"/>
+                        <input type="text" readonly="" name="author" placeholder="Enter Author Name..." class="medium" value="<?php echo $retPostResult['author'] ?>"/>
                         <input type="hidden"  name="userID" value="<?php echo Session::get('adminID'); ?>"  class="medium" />
                     </td>
                 </tr>
@@ -223,7 +129,7 @@ while ($retPostResult=$getPost->fetch_assoc()) {
 			<tr>
                     <td></td>
                     <td>
-                        <input type="submit" name="submit" Value="Save" />
+                        <input type="submit" name="submit" Value="Back to Post List" />
                     </td>
                 </tr>
             </table>
